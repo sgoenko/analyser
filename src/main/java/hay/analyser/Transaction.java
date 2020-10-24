@@ -9,6 +9,18 @@ public class Transaction {
 	private String merchant;
 	private String type;
 	private String related;
+	
+	public Transaction() {
+	}
+
+	public Transaction(String id, Date date, Double amount, String merchant, String type, String related) {
+		this.id = id;
+		this.date = date;
+		this.amount = amount;
+		this.merchant = merchant;
+		this.type = type;
+		this.related = related;
+	}
 
 	public String getId() {
 		return id;

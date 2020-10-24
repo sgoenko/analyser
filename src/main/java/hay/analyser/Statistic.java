@@ -6,7 +6,7 @@ public class Statistic {
 
 	@Override
 	public String toString() {
-		return "Number of transactions = " + number + ", Average Transaction Value = " + average + "]";
+		return "Number of transactions = " + number + ", Average Transaction Value = " + average;
 	}
 
 	public int getNumber() {

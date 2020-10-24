@@ -12,21 +12,28 @@ import java.util.stream.Collectors;
 
 public class TransactionAnalyser {
 
-	private static List<Transaction> transactions = new ArrayList<>();
-
 	public static void main(String[] args) throws Exception {
 		String csvFile = args[0];
 		String paramsFile = args[1];
-
-		populateTransactions(csvFile);
 		
-		InputParams params = getParams(paramsFile);
+		TransactionAnalyser analyser = new TransactionAnalyser(); 
 
-		System.out.println(getStatistic(
-				params.getFromDate(), params.getToDate(), params.getMerchant()));
+		List<Transaction> transactions = analyser.populateTransactions(csvFile);
+		
+		InputParams params = analyser.getParams(paramsFile);
+
+		System.out.println(
+				analyser.getStatistic(transactions,
+							params.getFromDate(), 
+							params.getToDate(), 
+							params.getMerchant()
+				)
+		);
 	}
 	
-	public static Statistic getStatistic(Date fromDate, Date toDate, String merchant) {
+	public Statistic getStatistic(
+			List<Transaction> transactions, 
+			Date fromDate, Date toDate, String merchant) {
 		
 		List<String> reversal = transactions.stream()
 				.filter(t -> t.getType().compareTo("REVERSAL") == 0)
@@ -49,7 +56,7 @@ public class TransactionAnalyser {
 		return statistic;
 	}
 	
-	public static InputParams getParams(String paramsFile) throws FileNotFoundException, ParseException {
+	public InputParams getParams(String paramsFile) throws FileNotFoundException, ParseException {
 		InputParams params = new InputParams();
 		
 		Scanner scanner = new Scanner(new File(paramsFile));
@@ -75,9 +82,10 @@ public class TransactionAnalyser {
 		return params;
 	}
 	
- 	public static void populateTransactions(String csvFile) throws FileNotFoundException, ParseException {
+ 	public List<Transaction> populateTransactions(String csvFile) throws FileNotFoundException, ParseException {
 	
 		Scanner scanner = new Scanner(new File(csvFile));
+		List<Transaction> transactions = new ArrayList<>();		
 		
 		scanner.nextLine(); // skip headers line
 		while (scanner.hasNext()) {
@@ -100,6 +108,7 @@ public class TransactionAnalyser {
 			
 		}
 		scanner.close();
+		return transactions;
 		
 	}
 }
