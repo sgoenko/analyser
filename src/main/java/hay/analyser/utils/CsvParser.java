@@ -1,4 +1,4 @@
-package hay.analyser;
+package hay.analyser.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class CsvParser {
 		return parseLine(cvsLine, separators, DEFAULT__QUOTE);
 	}
 
-	public static List<String> parseLine(String cvsLine, char separators, char customQuote) {
+	private static List<String> parseLine(String cvsLine, char separators, char customQuote) {
 		List<String> result = new ArrayList<>();
 
 		if (cvsLine == null || cvsLine.isEmpty()) {

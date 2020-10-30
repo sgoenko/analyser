@@ -8,6 +8,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import hay.analyser.entity.Statistic;
+import hay.analyser.entity.Transaction;
+import hay.analyser.utils.TransactionAnalyser;
+
 
 class TransactionAnalyserTest {
 	List<Transaction> transactions = new ArrayList<>();		

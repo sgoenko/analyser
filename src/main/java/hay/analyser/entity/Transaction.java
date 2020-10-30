@@ -1,4 +1,4 @@
-package hay.analyser;
+package hay.analyser.entity;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package hay.analyser;
+package hay.analyser.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,49 +10,35 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import hay.analyser.entity.InputParams;
+import hay.analyser.entity.Statistic;
+import hay.analyser.entity.Transaction;
+
 public class TransactionAnalyser {
-
-	public static void main(String[] args) throws Exception {
-		String csvFile = args[0];
-		String paramsFile = args[1];
 		
-		TransactionAnalyser analyser = new TransactionAnalyser(); 
-
-		List<Transaction> transactions = analyser.populateTransactions(csvFile);
-		
-		InputParams params = analyser.getParams(paramsFile);
-
-		System.out.println(
-				analyser.getStatistic(transactions,
-							params.getFromDate(), 
-							params.getToDate(), 
-							params.getMerchant()
-				)
-		);
-	}
-	
 	public Statistic getStatistic(
 			List<Transaction> transactions, 
 			Date fromDate, Date toDate, String merchant) {
 		
-		List<String> reversal = transactions.stream()
+		List<String> reversalTransactions = transactions.stream()
 				.filter(t -> t.getType().compareTo("REVERSAL") == 0)
 				.map(t -> t.getRelated())
                 .collect(Collectors.toList());  
 		
-		List<Transaction> filtered = transactions.stream()       
+		List<Transaction> filteredTransactions = transactions.stream()       
                 .filter(t -> 
                 t.getType().compareTo("PAYMENT") == 0 &&
                 t.getMerchant().compareTo(merchant)==0 && 
-                !reversal.contains(t.getId()) &&
+                !reversalTransactions.contains(t.getId()) &&
                 t.getDate().compareTo(fromDate) >= 0 && t.getDate().compareTo(toDate) <= 0 )    
                 .collect(Collectors.toList());  
 		
+		double average = filteredTransactions.stream().mapToDouble(t -> t.getAmount()).average().orElse(0.0);
+
 		Statistic statistic = new Statistic();
-		
-		double average = filtered.stream().mapToDouble(t -> t.getAmount()).average().orElse(0.0);
-		statistic.setNumber(filtered.size());
+		statistic.setNumber(filteredTransactions.size());
 		statistic.setAverage(average);
+
 		return statistic;
 	}
 	
@@ -64,17 +50,15 @@ public class TransactionAnalyser {
 		while (scanner.hasNext()) {
 			String line = scanner.nextLine();
 			if (line.startsWith("fromDate:")) {
-				line = line.substring(9).trim();
-				Date fromDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(line);  
+				Date fromDate = getDateFromInputLine(line);  
 				params.setFromDate(fromDate);
 			}
 			if (line.startsWith("toDate:")) {
-				line = line.substring(7).trim();
-				Date toDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(line);  
+				Date toDate = getDateFromInputLine(line);  
 				params.setToDate(toDate);
 			}
 			if (line.startsWith("merchant:")) {
-				line = line.substring(9).trim();
+				line = line.substring("merchant:".length()).trim();
 				params.setMerchant(line);
 			}
 		}
@@ -82,7 +66,12 @@ public class TransactionAnalyser {
 		return params;
 	}
 	
- 	public List<Transaction> populateTransactions(String csvFile) throws FileNotFoundException, ParseException {
+	private Date getDateFromInputLine(String line) throws ParseException {
+		String date = line.split(": ")[1];
+		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(date);  
+	}
+	
+ 	public List<Transaction> getTransactions(String csvFile) throws FileNotFoundException, ParseException {
 	
 		Scanner scanner = new Scanner(new File(csvFile));
 		List<Transaction> transactions = new ArrayList<>();		
@@ -113,9 +102,3 @@ public class TransactionAnalyser {
 	}
 }
 
-//fromDate: 20/08/2018 12:00:00
-//toDate: 20/08/2018 13:00:00
-//merchant: Kwik-E-Mart
-//The output will be:
-//Number of transactions = 1
-//Average Transaction Value = 59.99
