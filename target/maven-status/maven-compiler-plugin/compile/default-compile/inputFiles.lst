@@ -1,5 +1,6 @@
-M:\Java\src\analyser\src\main\java\hay\analyser\Statistic.java
-M:\Java\src\analyser\src\main\java\hay\analyser\Transaction.java
-M:\Java\src\analyser\src\main\java\hay\analyser\InputParams.java
-M:\Java\src\analyser\src\main\java\hay\analyser\CsvParser.java
-M:\Java\src\analyser\src\main\java\hay\analyser\TransactionAnalyser.java
+M:\Java\src\analyser\src\main\java\hay\analyser\utils\CsvParser.java
+M:\Java\src\analyser\src\main\java\hay\analyser\utils\TransactionAnalyser.java
+M:\Java\src\analyser\src\main\java\hay\analyser\entity\Statistic.java
+M:\Java\src\analyser\src\main\java\hay\analyser\entity\InputParams.java
+M:\Java\src\analyser\src\main\java\hay\analyser\Runner.java
+M:\Java\src\analyser\src\main\java\hay\analyser\entity\Transaction.java

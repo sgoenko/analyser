@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Built-By: 37529
 Build-Jdk: 14.0.2
-Main-Class: hay.analyser.TransactionAnalyser
+Main-Class: hay.analyser.Runner
 Created-By: Maven Integration for Eclipse
 

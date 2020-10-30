@@ -15,7 +15,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>hay.analyser.TransactionAnalyser</mainClass>
+							<mainClass>hay.analyser.Runner</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

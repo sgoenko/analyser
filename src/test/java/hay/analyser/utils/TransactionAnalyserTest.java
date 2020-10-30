@@ -1,4 +1,4 @@
-package hay.analyser;
+package hay.analyser.utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,7 +17,7 @@ class TransactionAnalyserTest {
 	List<Transaction> transactions = new ArrayList<>();		
 	
 	@Test
-    public void getstatistic() {
+    public void getStatistic() {
 		TransactionAnalyser analyser = new TransactionAnalyser(); 
 		
 		transactions.add(new Transaction("1", new Date(), 1.0, "1","PAYMENT",""));
